@@ -175,7 +175,7 @@ addLayer("p", {
 				effectDisplay() { return "*"+format(upgradeEffect(this.layer, this.id)) }, 
 			},
 			34: {
-				title: "任然无用",
+				title: "仍然无用",
 				description: "平方声望升级'力量升级'效果.",
 				cost:function(){return new Decimal("123456789")},
 				unlocked(){return hasUpgrade("a",24)},
@@ -480,7 +480,7 @@ addLayer("a", {
         "prestige-button",
         ["display-text", function() {return '你有 ' + format(player.points) + ' 通量点.'}],
         "blank",
-		["display-text", function() {return '很明显火焰强度并不能改变通量点的获取,所以,它别赋予了新的效果,获得灰烬!'}],
+		["display-text", function() {return '很明显火焰强度并不能改变通量点的获取,所以,它被赋予了新的效果,获得灰烬!'}],
 		["display-text", function() {return hasUpgrade('a',31) ? '你的火焰强度太高了,当它超过100%时会损失的越来越快' : ''}],
 		["display-text", function() {return hasUpgrade('a',34) ? '你的火焰强度太太高了,当它超过1000%时会损失的更加越来越快' : ''}],
 		["display-text", function() {return hasUpgrade("a",11) ? '' : '第一个升级或许不是很好完成,所以在获得第一个升级前第一个灰烬获取更容易'}],
