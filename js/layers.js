@@ -532,7 +532,7 @@ addLayer("i", {
 			11: {
 				title: "这个效果有点弱?",
 				description: "增量数量增加通量点获得量",
-				cost:function(){return new Decimal("22")},
+				cost:function(){return new Decimal("222")},
 				effect(){
 					let eff = new Decimal(0)
 					if(hasUpgrade("i",11)){eff = new Decimal(1).mul(player.i.points.mul(0.01))}
@@ -545,7 +545,7 @@ addLayer("i", {
 			12: {
 				title: "添加断臂",
 				description: "解锁第一个可重复购买项，每购一个增量的升级，增量获得量乘 1.1(复加)",
-				cost:function(){return new Decimal("222")},
+				cost:function(){return new Decimal("2222")},
 				unlocked(){
                     return hasUpgrade("i",11)
 				},
@@ -559,7 +559,7 @@ addLayer("i", {
 			13: {
 				title: "添加'添加断臂'",
 				description: "解锁第二个可重复购买项",
-				cost:function(){return new Decimal("2222")},
+				cost:function(){return new Decimal("22222")},
 				unlocked(){
 				  return hasUpgrade("i",12)
 				}
@@ -567,7 +567,7 @@ addLayer("i", {
 			14: {
 				title: "添加'添加'添加断臂''",
 				description: "解锁第三个可重复购买项",
-				cost:function(){return new Decimal("22222")},
+				cost:function(){return new Decimal("222222")},
 				unlocked(){
 				  return hasUpgrade("i",13)
 				}
@@ -575,7 +575,7 @@ addLayer("i", {
 			21: {
 				title: "这个效果不太弱?",
 				description: "'这个效果有点弱?'效果十倍并且加成从加变为乘(带1保底)",
-				cost:function(){return new Decimal("222222")},
+				cost:function(){return new Decimal("2222222")},
 				unlocked(){
 				  return hasUpgrade("i",14)
 				}
