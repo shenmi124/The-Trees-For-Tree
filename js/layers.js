@@ -841,7 +841,7 @@ addLayer("c", {
 	},
 	upgrades: {
 		11: {
-			description: "你的灰烬获取基于你的煤.",
+			description: "基于你的煤提升你的灰烬获取.",
 			cost: new Decimal(2),
 			effect() {return player[this.layer].points.add(2).pow(1.25)},
 			effectDisplay() {return format(upgradeEffect(this.layer, this.id)) + "x"},
