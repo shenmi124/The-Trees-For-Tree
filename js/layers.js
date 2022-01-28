@@ -7,7 +7,7 @@ addLayer("p", {
 		points: new Decimal(0),
     }},
     color: "rgb(49,174,176)",
-    requires: new Decimal(10),
+    requires(){return new Decimal(10)},
     resource: "声望",
     baseResource: "通量点",
     baseAmount() {return player.points},
@@ -108,11 +108,11 @@ addLayer("p", {
 			},
 			22: {
 				title: "协同协同",
-				description: "自协同和己协同(迟到的己协同)的效果互相相乘后的0.08次方后log(18)+1再相乘",
+				description: "自协同和己协同(迟到的己协同)的效果互相相乘后的0.1次方后log8+1再相乘",
 				cost:function(){return new Decimal("10000")},
 				unlocked(){return hasUpgrade("a",23)},
 				effect(){
-					let eff = new Decimal(1).mul(upgradeEffect("p",13)).mul(upgradeEffect("a",13)).pow(0.08).log(18).add(1)
+					let eff = new Decimal(1).mul(upgradeEffect("p",13)).mul(upgradeEffect("a",13)).pow(0.1).log(8).add(1)
 					eff = softcap(eff,new Decimal(2),0.1)
 					return eff
 				},
