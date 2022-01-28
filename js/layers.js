@@ -85,14 +85,14 @@ addLayer("p", {
 			},
 			14: {
 				title: "己协同",
-				description: "声望加成声...等等,B,P层是认真的吗?<br>那太没意思了,不如买些DLC",
+				description: "声望加成声...等等,B,G层是认真的吗?<br>那太没意思了,不如买些DLC",
 				cost:function(){return new Decimal("9")},
 				effect(){
 					let eff = new Decimal("0")
 					if(hasUpgrade("p",14)){eff = new Decimal(4)}
 					return eff
 				},
-				effectDisplay() { return "+"+format(upgradeEffect(this.layer, this.id)) }, 
+				effectDisplay() { return "+"+format(upgradeEffect(this.layer, this.id))+"DLC" }, 
 				unlocked(){return hasUpgrade("p",13)},
 			},
 			21: {
@@ -216,7 +216,7 @@ addLayer("p", {
 				title: "新DLC",
 				description: "给你的'通量点'再加点RPG风味?",
 				cost:function(){
-					let cost = new Decimal("1ee10")
+					let cost = new Decimal("1e1000")
 					return cost
 				},
 				unlocked(){return hasUpgrade("p",14)},
