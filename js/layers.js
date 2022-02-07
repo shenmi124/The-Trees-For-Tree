@@ -1640,7 +1640,7 @@ addLayer("co", {
         "prestige-button",
         ["display-text", function() {return '你有 ' + format(player.points) + ' 通量点.'}],
 		"blank",
-		["display-text", function() {return '把树堆积在一起多不是一件没事啊,所以我把这个层放在下面没毛病吧,当然,重置依然会将上面的全部带走噢.<br><h6>拥有第一个金币之后显示金币升级'}],
+		["display-text", function() {return '把树堆积在一起多不是一件没事啊,所以我把这个层放在下面没毛病吧,当然,重置依然会将上面的全部带走噢.'}],
 		"blank",
         "upgrades"
     ]
