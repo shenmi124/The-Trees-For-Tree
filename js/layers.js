@@ -21,6 +21,12 @@ addLayer("p", {
 		if(hasUpgrade("a",13)){mult = mult.times(upgradeEffect("a",13))}
 		if(hasUpgrade("a",14)){mult = mult.times(upgradeEffect("a",14))}
 		if(hasUpgrade("p",31)){mult = mult.times(upgradeEffect("p",31))}
+		if(hasUpgrade("p",41)){mult = mult.times(upgradeEffect("p",41))}
+		if(hasUpgrade("p",42)){mult = mult.times(upgradeEffect("p",42))}
+		if(hasUpgrade("p",43)){mult = mult.times(upgradeEffect("p",43))}
+		if(hasUpgrade("p",44)){mult = mult.times(upgradeEffect("p",44))}
+		if(hasChallenge("am",11)){mult = mult.times(player.am.eff11)}
+		if(inChallenge("am",12)){mult = mult.pow(0.1)}
         return mult
     },
     gainExp() {
@@ -40,6 +46,7 @@ addLayer("p", {
 				if (resettingLayer=="c" && hasMilestone("c",3)) keep.push("points","base","total","milestones","upgrades");
 				if (resettingLayer=="e" && hasMilestone("e",2)) keep.push("points","base","total","milestones","upgrades");
 				if (resettingLayer=="am" && hasUpgrade("am",12)) keep.push("points","base","total","milestones","upgrades");
+				if (resettingLayer=="amo" && hasMilestone("amo",0)) keep.push("points","base","total","milestones","upgrades");
 				layerDataReset(this.layer, keep)
 			}
 			player.a.fire = new Decimal(100)
@@ -185,6 +192,50 @@ addLayer("p", {
 				},
 				effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id)) }, 
 			},
+			41: {
+				title: "高级协同I",
+				description: "灰烬增加声望获取.",
+				cost:function(){return new Decimal("1e36")},
+				unlocked(){return hasUpgrade("am",15)},
+				effect(){
+					let eff = player.a.points.add(1).log(10).add(1)
+					return eff
+				},
+				effectDisplay() { return "*"+format(upgradeEffect(this.layer, this.id)) }, 
+			},
+			42: {
+				title: "高级协同II",
+				description: "煤增加声望获取.",
+				cost:function(){return new Decimal("1e38")},
+				unlocked(){return hasUpgrade("am",15)},
+				effect(){
+					let eff = player.c.points.add(1)
+					return eff
+				},
+				effectDisplay() { return "*"+format(upgradeEffect(this.layer, this.id)) }, 
+			},
+			43: {
+				title: "高级协同III",
+				description: "电力增加声望获取.",
+				cost:function(){return new Decimal("1e40")},
+				unlocked(){return hasUpgrade("am",15)},
+				effect(){
+					let eff = player.e.points.add(1).log(5).add(1)
+					return eff
+				},
+				effectDisplay() { return "*"+format(upgradeEffect(this.layer, this.id)) }, 
+			},
+			44: {
+				title: "高级协同IV",
+				description: "增量增加声望获取.",
+				cost:function(){return new Decimal("1e42")},
+				unlocked(){return hasUpgrade("am",15)},
+				effect(){
+					let eff = player.i.points.add(1).log(10).add(1)
+					return eff
+				},
+				effectDisplay() { return "*"+format(upgradeEffect(this.layer, this.id)) }, 
+			},
 			81: {
 				title: "新DLC",
 				description: "在你的'通量点'上再加排字?",
@@ -205,7 +256,7 @@ addLayer("p", {
 			},
 			83: {
 				title: "新DLC",
-				description: "给你的'通量点'更新一下?",
+				description: "给你的'通量点'建立一个王国系统?",
 				cost:function(){
 					let cost = new Decimal("1e100")
 					return cost
@@ -515,9 +566,9 @@ addLayer("i", {
     },
     row: 1,
 	update(diff) {
-		player.i.getpoints = new Decimal(player.points.add(2).log(10).mul(upgradeEffect("c",14)).mul(upgradeEffect("i",12)).mul(buyableEffect("i",11)).mul(buyableEffect("i",12)).mul(tmp.am.effect).mul(upgradeEffect("am",11)).mul(upgradeEffect("am",12)).mul(upgradeEffect("am",13)).pow(buyableEffect("i",13)))
+		player.i.getpoints = new Decimal(player.points.add(2).log(10).mul(upgradeEffect("c",14)).mul(upgradeEffect("i",12)).mul(buyableEffect("i",11)).mul(buyableEffect("i",12)).mul(tmp.am.effect).mul(tmp.amo.effect[0]).mul(upgradeEffect("am",11)).mul(upgradeEffect("am",12)).mul(upgradeEffect("am",13)).pow(buyableEffect("i",13)))
 		player.i.allbuy = new Decimal(0).add(getBuyableAmount("i",11)).add(getBuyableAmount("i",12)).add(getBuyableAmount("i",13))
-		if(hasUpgrade("p",82)){player.i.points = player.i.points.add(Decimal.add(player.i.getpoints).mul(diff))}
+		if(hasUpgrade("p",82) || hasMilestone("amo",0)){player.i.points = player.i.points.add(Decimal.add(player.i.getpoints).mul(diff))}
 	},
 		doReset(resettingLayer) {
 			if (layers[resettingLayer].row > layers[this.layer].row) {
@@ -678,7 +729,7 @@ addLayer("i", {
 				}
 			},
 		},
-    layerShown(){return hasUpgrade("p",82)},
+    layerShown(){return hasUpgrade("p",82) || hasMilestone("amo",0)},
 		tabFormat: [
 			"main-display",
 			"blank",
@@ -766,7 +817,7 @@ addLayer("g", {
 addLayer("c", {
     name: "coal",
     symbol: "C",
-    position: 9,
+    position: 8,
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -902,7 +953,7 @@ addLayer("c", {
 addLayer("e", {
     name: "electricity",
     symbol: "E",
-    position: 10,
+    position: 9,
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
@@ -1261,6 +1312,7 @@ addLayer("am", {
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
+		eff11:new Decimal(0),
     }},
     color: "#DB4C83",
     requires:function(){return new Decimal(100)},
@@ -1290,6 +1342,7 @@ addLayer("am", {
 	},
     gainMult() {
         mult = new Decimal(1)
+		if (player.amo.unlocked){mult = mult.times(tmp.amo.effect[1])}
         return mult
     },
     gainExp() {
@@ -1300,8 +1353,19 @@ addLayer("am", {
         {key: "shift+a", description: "AM: 重置增量宇宙树的AM层", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
 	update(diff) {
+		player.am.eff11 = new Decimal(1).add(player.am.points.mul(0.00000001))
+		generatePoints("am", this.revenue(diff))
 	},
     layerShown(){return player.i.allbuy.gte(100) || player.am.unlocked},
+		doReset(resettingLayer) {
+			if (layers[resettingLayer].row > layers[this.layer].row) {
+				let keep = []
+				if (resettingLayer=="amo" && hasMilestone("amo",1)) keep.push("upgrades");
+				if (resettingLayer=="amo" && hasMilestone("amo",2)) keep.push("upgrades");
+				layerDataReset(this.layer, keep)
+			}
+			player.a.fire = new Decimal(100)
+		},
         upgrades:{
 			11:{
 				title: "增量增量", 
@@ -1323,7 +1387,7 @@ addLayer("am", {
 					return eff
 				},
 				effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×"}, 
-				unlocked(){return hasUpgrade("am",11) || hasUpgrade("am",12)}
+				unlocked(){return hasUpgrade("am",11)}
 			},
 			13:{
 				title: "保留II", 
@@ -1335,7 +1399,249 @@ addLayer("am", {
 					return eff
 				},
 				effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×"}, 
-				unlocked(){return hasUpgrade("am",11) || hasUpgrade("am",12)}
+				unlocked(){return hasUpgrade("am",12)}
+			},
+			14:{
+				title: "全自动", 
+				description: "自动获得反物质",
+				cost: new Decimal(100),
+				unlocked(){return hasUpgrade("am",13)}
+			},
+			15:{
+				title: "回忆", 
+				description: "再解锁一排声望升级",
+				cost: new Decimal(1000),
+				unlocked(){return hasUpgrade("am",14)}
+			},
+			21:{
+				title: "全自动II", 
+				description: "每秒获得1000%的反物质",
+				cost: new Decimal(1000),
+				unlocked(){return hasUpgrade("am",15)}
+			},
+			22:{
+				title: "全自动III", 
+				description: "每秒获得10000%的反物质",
+				cost: new Decimal(10000),
+				unlocked(){return hasUpgrade("am",15)}
+			},
+			23:{
+				title: "全自动IV", 
+				description: "每秒获得100000%的反物质",
+				cost: new Decimal(100000),
+				unlocked(){return hasUpgrade("am",15)}
+			},
+			24:{
+				title: "全自动V", 
+				description: "每秒获得1000000%的反物质",
+				cost: new Decimal(1000000),
+				unlocked(){return hasUpgrade("am",15)}
+			},
+			25:{
+				title: "全自动VI", 
+				description: "每秒获得10000000%的反物质",
+				cost: new Decimal(10000000),
+				unlocked(){return hasUpgrade("am",15)}
 			},
 		},
+		challenges: {
+			11: {
+				name: "Konw?",
+				challengeDescription: "增量获得量变为原来的0.1次方",
+				unlocked(){return true},
+				canComplete:function(){return player.points.gte(1e140)},
+				goalDescription:"1e140 通量点",
+				rewardDescription(){return "反物质也会增加声望获取<br>*"+format(player.am.eff11)+"声望获取"},
+				onEnter(){
+				},
+				onExit(){
+				},
+			},
+			12: {
+				name: "No!",
+				challengeDescription: "声望获得量变为原来的0.1次方<br>进入重置声望点数",
+				unlocked(){return true},
+				canComplete:function(){return player.p.points.gte(1e72)},
+				goalDescription:"1e72 声望",
+				rewardDescription(){return "通量点获取增加7位数量级"},
+				onEnter(){
+					player.p.points = new Decimal(0)
+				},
+				onExit(){
+				},
+			},
+		},
+		revenue(diff) {
+			let amu = 0
+			if (hasUpgrade("am",14)){amu = 100}
+			if (hasUpgrade("am",21)){amu = 1000}
+			if (hasUpgrade("am",22)){amu = 10000}
+			if (hasUpgrade("am",23)){amu = 100000}
+			if (hasUpgrade("am",24)){amu = 1000000}
+			if (hasUpgrade("am",25)){amu = 10000000}
+			return diff * amu / 100
+		},  
+})
+
+addLayer("amo", {
+    name: "Amoebas",
+    symbol: "A",
+    position: 10,
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#1B4C23",
+    requires:function(){return new Decimal("1e67")},
+    resource: "变形虫",
+    baseResource: "增量",
+    baseAmount() {return player.i.points},
+    type: "normal",
+	branches: ["am"],
+        effect(){
+			let a = player.amo.points
+			let eff1 = Decimal.add(1, a).pow(10)
+			let eff2 = Decimal.add(2, a).div(2).pow(5)
+			if (a.gt(200) && a.lt(20000)) eff1 = Decimal.add(1, a).sub(200).pow(5).add(Decimal.add(1, 200).pow(10))
+			if (a.gt(400) && a.lt(40000)) eff2 = Decimal.add(2, a).sub(400).div(4).pow(2.5).add(Decimal.add(2, 400).div(2).pow(5))
+			if (a.gt(20000) && a.lt(2e10)) eff1 = Decimal.add(1, a).sub(20000).pow(2.5).add(Decimal.add(1, 200).pow(10)).add(Decimal.add(1, 20000).sub(200).pow(5))
+			if (a.gt(40000) && a.lt(4e10)) eff2 = Decimal.add(2, a).sub(40000).div(8).pow(1.25).add(Decimal.add(2, 400).div(2).pow(5)).add(Decimal.add(2, 40000).sub(400).div(4))
+			if (a.gt(2e10)) eff1 = Decimal.add(1, a).sub(2e10).pow(1.25).add(Decimal.add(1, 200).pow(10)).add(Decimal.add(1, 200).pow(10)).add(Decimal.add(1, 20000).sub(200).pow(5)).add(Decimal.add(1, 2e10).sub(20000).pow(2.5))
+			if (a.gt(4e10)) eff2 = Decimal.add(2, a).sub(4e10).div(16).pow(1.125).add(Decimal.add(2, 400).div(2).pow(5)).add(Decimal.add(2, 400).div(2).pow(5)).add(Decimal.add(2, 40000).sub(400).div(4)).add(Decimal.add(2, 4e10).sub(40000))
+			return [eff1, eff2]
+        },
+        effectDescription(){
+			return "增量获得量和点数获得量乘 " + format(tmp[this.layer].effect[0]) + " ，反物质获得量乘 " + format(tmp[this.layer].effect[1])
+        },
+    exponent:function(){
+		let exp = new Decimal(0.05)
+		return exp
+	},
+    gainMult() {
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() {
+        return new Decimal(1)
+    },
+    row: 3,
+    hotkeys: [
+        {key: "shift+a", description: "A: 重置增量宇宙树的A层", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	update(diff) {
+		generatePoints("amo", this.revenue(diff))
+	},
+	milestones: {
+		0: {
+			requirementDescription: "1 变形虫",
+			effectDescription: "保留声望全部,保持增量可见",
+			done() {
+				return player.amo.points.gte(1)
+			},
+		},
+		1: {
+			requirementDescription: "2 变形虫",
+			effectDescription: "真正的保留<br>重置保留反物质升级",
+			done() {
+				return player.amo.points.gte(2)
+			},
+		},
+		2: {
+			requirementDescription: "5 变形虫",
+			effectDescription: "重置保留反物质点数",
+			done() {
+				return player.amo.points.gte(5)
+			},
+		},
+		3: {
+			requirementDescription: "20 变形虫",
+			effectDescription: "自动获得变形虫",
+			done() {
+				return player.amo.points.gte(20)
+			},
+		},
+		4: {
+			requirementDescription: "1e6 变形虫",
+			effectDescription: "解锁反物质挑战",
+			done() {
+				return player.amo.points.gte(20)
+			},
+		},
+	},
+	revenue(diff) {
+			let amu = 0
+			if (hasMilestone("amo",3)){amu = 100}
+			return diff * amu / 100
+		}, 
+    layerShown(){return hasUpgrade("am",25) || player.amo.unlocked},
+})
+
+addLayer("co", {
+    name: "coins",
+    symbol: "C",
+    position: 12,
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+		eff11:new Decimal(0),
+    }},
+    color: "#FFFF00",
+    requires:function(){return new Decimal(1e150)},
+    resource: "金币",
+    baseResource: "通量点",
+    baseAmount() {return player.points},
+    type: "normal",
+    exponent:function(){
+		let exp = new Decimal(0.5)
+		return exp
+	},
+    gainMult() {
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() {
+        return new Decimal(1)
+    },
+    row: 4,
+    hotkeys: [
+        {key: "shift+c", description: "C: 重置王朝之系谱的C层", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	update(diff) {
+		generatePoints("co", this.revenue(diff))
+	},
+    layerShown(){return hasUpgrade("p",83) || player.co.unlocked},
+		revenue(diff) {
+			let cu = 0
+			return diff * cu / 100
+		},	
+		doReset(resettingLayer) {
+			if (layers[resettingLayer].row > layers[this.layer].row) {
+				let keep = []
+				layerDataReset(this.layer, keep)
+			}
+			player.p.unlocked = false
+			player.c.unlocked = false
+			player.e.unlocked = false
+			player.am.unlocked = false
+			player.amo.unlocked = false
+		},
+		upgrades: {
+			11: {
+				description: "通量点获取10000倍<br>解锁诱惑选择",
+				cost:function(){return new Decimal("1")},
+				effect(){
+					let eff = new Decimal(1)
+					return eff
+				},
+			},
+		},
+	tabFormat: [
+        "main-display",
+        "prestige-button",
+        ["display-text", function() {return '你有 ' + format(player.points) + ' 通量点.'}],
+		"blank",
+		["display-text", function() {return '把树堆积在一起多不是一件没事啊,所以我把这个层放在下面没毛病吧,当然,重置依然会将上面的全部带走噢.<br><h6>拥有第一个金币之后显示金币升级'}],
+		"blank",
+        "upgrades"
+    ]
 })

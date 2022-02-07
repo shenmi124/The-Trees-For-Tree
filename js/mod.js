@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "3.6.8.e62",
+	num: "4.7.10.e150",
 	name: "以树为树",
 }
 
@@ -30,12 +30,14 @@ let changelog = `
 	<h2>更新日志:<br><h3>
 		<h5><t id="red">剧透警告</t></h5><br>
 		<h4>第二个版本:<br>
-		<h4>v<t id="red">3</t>.<t id="yellow">6</t>.<t id="blue">8</t>.<t id="green">e62</t></h4><br>
+		<h4>v<t id="red">4</t>.<t id="yellow">7</t>.<t id="blue">10</t>.<t id="green">e150</t></h4><br>
 		<br>
 		<h4>标准更新:</h4>
 		<h5>
-		<li>新添 电力层 反物质层 及其内容<br>
-		<li>残局到达 1e62 通量点<br>
+		<li>新添 王朝之系谱<br>
+		<li>新添 电力层 反物质层 变形虫层 及其内容<br>
+		<li>新添除了上方的 金币层 没有实际内容<br>
+		<li>残局到达 1e150 通量点<br>
 		</h5>
 		<br>
 		<h4>其他更新:</h4>
@@ -53,7 +55,7 @@ let changelog = `
 		<br>
 		<h4>标准更新:</h4>
 		<h5>
-		<li>新添 声望树重置 燃烧树 增量树<br>
+		<li>新添 声望树重置 燃烧树 增量树宇宙<br>
 		<li>新添 声望层 灰烬层 煤层 增量层 及其内容<br>
 		<li>新添除了上方的 电力层 增幅器层 生成器层 但是没有实际内容<br>
 		<li>残局到达 1e37 通量点<br>
@@ -98,6 +100,8 @@ function getPointGen() {
 	if (hasUpgrade("i",21)){gain = gain.mul(upgradeEffect("i",11))}
 	if (player["e"].unlocked){gain = gain.mul(player["e"].allocatedEffects[2])}
 	if (player.am.unlocked){gain = gain.mul(tmp.am.effect)}
+	if (player.amo.unlocked){gain = gain.mul(tmp.amo.effect[0])}
+	if (hasChallenge("am",12)){gain = gain.mul(10000000)}
 	if (hasUpgrade("p",23)){gain = gain.div(upgradeEffect("p",23))}
 	if (hasUpgrade("p",32)){gain = gain.pow(upgradeEffect("p",32))}
 	return gain
@@ -113,7 +117,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e62"))
+	return player.points.gte(new Decimal("1e150"))
 }
 
 
