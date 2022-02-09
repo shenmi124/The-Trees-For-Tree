@@ -1602,7 +1602,7 @@ addLayer("co", {
     gainExp() {
         return new Decimal(1)
     },
-    row: 4,
+    row: 5,
     hotkeys: [
         {key: "shift+c", description: "C: 重置王朝之系谱的C层", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
@@ -1627,12 +1627,21 @@ addLayer("co", {
 		},
 		upgrades: {
 			11: {
-				description: "通量点获取10000倍<br>解锁诱惑选择",
+				description: "通量点获取增强10000倍<br>完成重构'声望重构'",
 				cost:function(){return new Decimal("1")},
 				effect(){
-					let eff = new Decimal(1)
+					let eff = new Decimal(10000)
 					return eff
 				},
+			},
+			12: {
+				description: "根据金币总数,增强第一个'增强'",
+				cost:function(){return new Decimal("100")},
+				effect(){
+					let ret = player[this.layer].total.div(5).add(1).max(1).log10().add(1)
+					return ret
+				},
+				effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"×"}, 
 			},
 		},
 	tabFormat: [
@@ -1640,8 +1649,41 @@ addLayer("co", {
         "prestige-button",
         ["display-text", function() {return '你有 ' + format(player.points) + ' 通量点.'}],
 		"blank",
-		["display-text", function() {return '把树堆积在一起多不是一件没事啊,所以我把这个层放在下面没毛病吧,当然,重置依然会将上面的全部带走噢.'}],
+		["display-text", function() {return '把树堆积在一起多不是一件没事啊,所以我把这个层放在下面没毛病吧,当然,重置依然会将上面的全部带走噢.<br><h6>事实上,除了声望重构第一个升级还会使以前层永久可见,煤炭,电力层价格回归初始状态.'}],
 		"blank",
         "upgrades"
+    ]
+})
+
+addLayer("reff", {
+    name: "refactorseffect",
+    symbol: "R<h6>effect",
+    position: 12,
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+		eff11:new Decimal(0),
+    }},
+	tooltip() { 
+		return `重构效果`
+	},
+    color: "rgb(76,171,245)",
+    type: "none",
+    row: 'side',
+    layerShown(){return hasUpgrade("co",11) || player.reff.unlocked},
+    infoboxes: {
+        lore: {
+            title: "重构效果",
+            body: "这里记录了关于游戏制作树重构阶层的效果,但是正常来说,你第一个获得的效果是在王朝的金币(同时也是游戏制作树的金钱)中获得的,换句话说,你可能先获得重构加成再解锁重构,无论怎么样,这里记录你关于重构效果的全部",
+        },
+		P: {
+            title: "声望重构——lv.1",
+            body: "永久显示先前16个升级并自动购买它们且无消耗<br>所有升级效果*1.25<br>'声望增益','协同协同'软上限启用延迟10倍<br>每秒自动获得1000%的重置时可获得声望<br>声望获得*1.5<br>'威望增量'效果变为点数获取*10,移除第二个效果<br>'我们不需要更多点数'第一个效果变为^1.025,移除第二个效果",
+        },
+    },
+	tabFormat: [
+		["infobox", "lore"],
+		"blank",
+        ["infobox", "P"],
     ]
 })

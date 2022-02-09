@@ -98,6 +98,7 @@ function getPointGen() {
 	if (hasUpgrade("a",41)){gain = gain.mul(upgradeEffect("a",41))}
 	if (hasUpgrade("c",14)){gain = gain.mul(upgradeEffect("c",14))}
 	if (hasUpgrade("i",21)){gain = gain.mul(upgradeEffect("i",11))}
+	if (hasUpgrade("co",11)){gain = gain.mul(upgradeEffect("co",11))}
 	if (player["e"].unlocked){gain = gain.mul(player["e"].allocatedEffects[2])}
 	if (player.am.unlocked){gain = gain.mul(tmp.am.effect)}
 	if (player.amo.unlocked){gain = gain.mul(tmp.amo.effect[0])}
