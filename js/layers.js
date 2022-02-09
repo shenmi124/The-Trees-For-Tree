@@ -1687,3 +1687,26 @@ addLayer("reff", {
         ["infobox", "P"],
     ]
 })
+
+addLayer("afdian", {
+    name: "afdian",
+    symbol: "A",
+    position: 10,
+    startData() { return {
+        unlocked: true,
+    }},
+	tooltip() { 
+		return `捐助(donate)`
+	},
+    color: "#FFFFFF",
+    type: "none",
+    row: "side",
+    layerShown(){return true},
+	tabFormat: [
+        "main-display",
+        "prestige-button",
+        ["display-text", function() {return '<h1>https://afdian.net/@Mysterious124'}],
+        "blank",
+        "upgrades"
+    ]
+})
