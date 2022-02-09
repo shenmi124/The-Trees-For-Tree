@@ -1670,7 +1670,7 @@ addLayer("reff", {
     color: "rgb(76,171,245)",
     type: "none",
     row: 'side',
-    layerShown(){return hasUpgrade("co",11) || player.reff.unlocked},
+    layerShown(){return hasUpgrade("co",11)},
     infoboxes: {
         lore: {
             title: "重构效果",
