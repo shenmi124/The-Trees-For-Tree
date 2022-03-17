@@ -3,7 +3,7 @@ addLayer("p", {
     symbol: "P",
     position: 10,
     startData() { return {
-        unlocked: false,
+        unlocked: true,
 		points: new Decimal(0),
     }},
     color: "rgb(49,174,176)",
