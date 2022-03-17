@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "4.7.10.e150",
+	num: "4.10.13.e333",
 	name: "以树为树",
 }
 
@@ -29,6 +29,24 @@ let changelog = `
 		<br>
 	<h2>更新日志:<br><h3>
 		<h5><t id="red">剧透警告</t></h5><br>
+		<h4>第三个版本:<br>
+		<h4>v<t id="red">4</t>.<t id="yellow">10</t>.<t id="blue">13</t>.<t id="green">e333</t></h4><br>
+		<br>
+		<h4>标准更新:</h4>
+		<h5>
+		<li>新添 金币层 增强器层 生成器层 及其内容<br>
+		<li>新添除了上方的 时间胶囊层 增强层 空间能量层 没有实际内容<br>
+		<li>残局到达 1e333 通量点<br>
+		</h5>
+		<br>
+		<br>
+		<br>
+		<br>
+		<h4>其他更新:</h4>
+		<h5>
+		<li>修改并添加了煤炭里程碑,灰烬层升级31速度变快<br>
+		<li>完成了新的电池和新的一排电池升级<br>
+		</h5>
 		<h4>第二个版本:<br>
 		<h4>v<t id="red">4</t>.<t id="yellow">7</t>.<t id="blue">10</t>.<t id="green">e150</t></h4><br>
 		<br>
@@ -99,10 +117,16 @@ function getPointGen() {
 	if (hasUpgrade("c",14)){gain = gain.mul(upgradeEffect("c",14))}
 	if (hasUpgrade("i",21)){gain = gain.mul(upgradeEffect("i",11))}
 	if (hasUpgrade("co",11)){gain = gain.mul(upgradeEffect("co",11))}
+	if (hasUpgrade("co",12)){gain = gain.mul(upgradeEffect("co",12))}
+	if (hasUpgrade("co",13)){gain = gain.mul(upgradeEffect("co",13))}
+	if (hasUpgrade("co",14)){gain = gain.mul(upgradeEffect("co",14))}
+	if (hasUpgrade("co",15)){gain = gain.mul(upgradeEffect("co",15))}
 	if (player["e"].unlocked){gain = gain.mul(player["e"].allocatedEffects[2])}
 	if (player.am.unlocked){gain = gain.mul(tmp.am.effect)}
 	if (player.amo.unlocked){gain = gain.mul(tmp.amo.effect[0])}
 	if (hasChallenge("am",12)){gain = gain.mul(10000000)}
+	if (player.g.unlocked){gain = gain.mul(tmp.g.powerEff)}
+	if (player.b.unlocked){gain = gain.mul(tmp.b.effect)}
 	if (hasUpgrade("p",23)){gain = gain.div(upgradeEffect("p",23))}
 	if (hasUpgrade("p",32)){gain = gain.pow(upgradeEffect("p",32))}
 	return gain
@@ -118,7 +142,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e150"))
+	return player.points.gte(new Decimal("1e333"))
 }
 
 
