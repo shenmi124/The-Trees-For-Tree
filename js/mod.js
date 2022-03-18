@@ -13,7 +13,7 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "4.10.13.e333",
+	num: "4.10.14.e350",
 	name: "以树为树",
 }
 
@@ -30,7 +30,7 @@ let changelog = `
 	<h2>更新日志:<br><h3>
 		<h5><t id="red">剧透警告</t></h5><br>
 		<h4>第三个版本:<br>
-		<h4>v<t id="red">4</t>.<t id="yellow">10</t>.<t id="blue">13</t>.<t id="green">e333</t></h4><br>
+		<h4>v<t id="red">4</t>.<t id="yellow">10</t>.<t id="blue">14</t>.<t id="green">e350</t></h4><br>
 		<br>
 		<h4>标准更新:</h4>
 		<h5>
@@ -46,6 +46,7 @@ let changelog = `
 		<h5>
 		<li>修改并添加了煤炭里程碑,灰烬层升级31速度变快<br>
 		<li>完成了新的电池和新的一排电池升级<br>
+		<li>完成了金币升级,完善了一些东西<br>
 		</h5>
 		<h4>第二个版本:<br>
 		<h4>v<t id="red">4</t>.<t id="yellow">7</t>.<t id="blue">10</t>.<t id="green">e150</t></h4><br>
@@ -142,7 +143,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e333"))
+	return player.points.gte(new Decimal("1e350"))
 }
 
 

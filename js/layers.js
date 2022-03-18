@@ -826,6 +826,13 @@ addLayer("b", {
     effectDescription() {
         return "增幅点数获取 " + format(tmp[this.layer].effect) + "x"
     },
+		upgrades:{
+			11:{
+				title: "转换",
+				description: "给这个层换个颜色?不,是新树!",
+				cost:function(){return new Decimal("3")},
+			},
+		},
     row: 2,
     hotkeys: [
         {key: "b", description: "B: 重置声望树的B层", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -878,6 +885,13 @@ addLayer("g", {
 		if (!player.g.unlocked){ return new Decimal(1)}
 		return player.g.power.plus(1).pow(this.powerExp())
 	},
+		upgrades:{
+			11:{
+				title: "阶层",
+				description: "一层套一层,SG?不,是新树!",
+				cost:function(){return new Decimal("3")},
+			},
+		},
     row: 2,
     hotkeys: [
         {key: "g", description: "G: 重置声望树的G层", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -1678,6 +1692,45 @@ addLayer("am", {
 		},  
 })
 
+addLayer("m", {
+    name: "Matter",
+    symbol: "M",
+    position: 13,
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#3B1053",
+    requires:function(){return new Decimal("1.797e308")},
+    resource: "物质",
+    baseResource: "增量",
+    baseAmount() {return player.i.points},
+    type: "static",
+	branches: ["i"],
+    exponent:function(){
+		let exp = new Decimal(12.5)
+		return exp
+	},
+    gainMult() {
+        mult = new Decimal(1)
+        return mult
+    },
+    gainExp() {
+        return new Decimal(1)
+    },
+	effect() {
+    },
+    effectDescription() {
+    },
+    row: 2,
+    hotkeys: [
+        {key: "m", description: "M: 重置增量树宇宙的M层", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+	update(diff) {
+	},
+    layerShown(){return player.amo.unlocked},
+})
+
 addLayer("amo", {
     name: "Amoebas",
     symbol: "A",
@@ -1781,7 +1834,7 @@ addLayer("s", {
 		points: new Decimal(0),
     }},
     color: "#dfdfdf",
-    requires:function(){return new Decimal("1e1200").times(player.en.unlocked?"1e2800":1).times(player.t.unlocked?"1e2800":1)},
+    requires:function(){return new Decimal("1e3200").times(player.en.unlocked?"1e2800":1).times(player.t.unlocked?"1e2800":1)},
     resource: "空间能量",
     baseResource: "通量点",
     baseAmount() {return player.points},
@@ -1820,7 +1873,7 @@ addLayer("en", {
 		points: new Decimal(0),
     }},
     color: "#b82fbd",
-    requires:function(){return new Decimal("1e1200").times(player.en.unlocked?"1e2800":1).times(player.t.unlocked?"1e2800":1)},
+    requires:function(){return new Decimal("1e3200").times(player.en.unlocked?"1e2800":1).times(player.t.unlocked?"1e2800":1)},
     resource: "增强",
     baseResource: "通量点",
     baseAmount() {return player.points},
@@ -1859,7 +1912,7 @@ addLayer("t", {
 		points: new Decimal(0),
     }},
     color: "#006609",
-    requires:function(){return new Decimal("1e1200").times(player.en.unlocked?"1e2800":1).times(player.t.unlocked?"1e2800":1)},
+    requires:function(){return new Decimal("1e3200").times(player.en.unlocked?"1e2800":1).times(player.t.unlocked?"1e2800":1)},
     resource: "时间胶囊",
     baseResource: "通量点",
     baseAmount() {return player.points},
@@ -1943,6 +1996,7 @@ addLayer("co", {
 					if (hasUpgrade("co",22)){eff = eff.mul(upgradeEffect("co",22))}
 					if (hasUpgrade("co",23)){eff = eff.mul(upgradeEffect("co",23))}
 					if (hasUpgrade("co",24)){eff = eff.mul(upgradeEffect("co",24))}
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 			},
@@ -1955,6 +2009,7 @@ addLayer("co", {
 					if (hasUpgrade("co",22)){eff = eff.mul(upgradeEffect("co",22))}
 					if (hasUpgrade("co",23)){eff = eff.mul(upgradeEffect("co",23))}
 					if (hasUpgrade("co",24)){eff = eff.mul(upgradeEffect("co",24))}
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 				unlocked(){return hasUpgrade("co",11)},
@@ -1968,6 +2023,7 @@ addLayer("co", {
 					if (hasUpgrade("co",22)){eff = eff.mul(upgradeEffect("co",22))}
 					if (hasUpgrade("co",23)){eff = eff.mul(upgradeEffect("co",23))}
 					if (hasUpgrade("co",24)){eff = eff.mul(upgradeEffect("co",24))}
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 				unlocked(){return hasUpgrade("co",12)},
@@ -1981,6 +2037,7 @@ addLayer("co", {
 					if (hasUpgrade("co",22)){eff = eff.mul(upgradeEffect("co",22))}
 					if (hasUpgrade("co",23)){eff = eff.mul(upgradeEffect("co",23))}
 					if (hasUpgrade("co",24)){eff = eff.mul(upgradeEffect("co",24))}
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 				unlocked(){return hasUpgrade("co",13)},
@@ -1994,16 +2051,18 @@ addLayer("co", {
 					if (hasUpgrade("co",22)){eff = eff.mul(upgradeEffect("co",22))}
 					if (hasUpgrade("co",23)){eff = eff.mul(upgradeEffect("co",23))}
 					if (hasUpgrade("co",24)){eff = eff.mul(upgradeEffect("co",24))}
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 				unlocked(){return hasUpgrade("co",14)},
 			},
 			21: {
-				description(){return "根据金币数量将之前所有的'增强'提升"+format(upgradeEffect(this.layer, this.id))+"倍."},
+				description(){return "根据金币数量将之前所有第一排的'增强'提升"+format(upgradeEffect(this.layer, this.id))+"倍."},
 				cost:function(){return new Decimal("1")},
 				effect(){
 					let eff = new Decimal(1).add(player.co.points).pow(1.35)
 					if (hasUpgrade("co",22)){eff = eff.mul(upgradeEffect("co",22))}
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 				unlocked(){return hasUpgrade("co",15)},
@@ -2013,27 +2072,65 @@ addLayer("co", {
 				cost:function(){return new Decimal("3")},
 				effect(){
 					let eff = player[this.layer].best.mul(18).add(1).max(1).log10().add(1)
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 				unlocked(){return hasUpgrade("co",21)},
 			},
 			23: {
-				description(){return "根据生成器最多数量将之前所有的'增强'提升"+format(upgradeEffect(this.layer, this.id))+"倍."},
+				description(){return "根据生成器最多数量将之前第一排的'增强'提升"+format(upgradeEffect(this.layer, this.id))+"倍."},
 				cost:function(){return new Decimal("10")},
 				effect(){
 					let eff = player.g.best.mul(50).max(15)
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 				unlocked(){return player.g.unlocked},
 			},
 			24: {
-				description(){return "根据增强器最多数量将之前所有的'增强'提升"+format(upgradeEffect(this.layer, this.id))+"倍."},
+				description(){return "根据增强器最多数量将之前第一排的'增强'提升"+format(upgradeEffect(this.layer, this.id))+"倍."},
 				cost:function(){return new Decimal("10")},
 				effect(){
 					let eff = player.b.best.mul(50).max(15)
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
 					return eff
 				},
 				unlocked(){return player.b.unlocked},
+			},
+			31: {
+				description(){return "买!<br>购买一些新树<br>根据你的金币升级数量前面所有'增强'指数提升"+format(upgradeEffect(this.layer, this.id))+"."},
+				cost:function(){return new Decimal("10")},
+				effect(){
+					let eff = Decimal.add(player.co.upgrades.length).mul(0.02).add(1)
+					if (hasUpgrade("co",31)){eff = eff.pow(upgradeEffect("co",31))}
+					return eff
+				},
+				unlocked(){return player.b.unlocked || player.g.unlocked},
+			},
+			81: {
+				description(){return "诱惑<br>用金钱诱惑作者去更新"},
+				cost:function(){return new Decimal("20")},
+				unlocked(){return hasUpgrade("co",31)},
+			},
+			82: {
+				description(){return "字母表<br>用金钱买一个字母表...?"},
+				cost:function(){return new Decimal("1e20")},
+				unlocked(){return hasUpgrade("co",31)},
+			},
+			83: {
+				description(){return "Null<br>Null...?"},
+				cost:function(){return new Decimal("1e200")},
+				unlocked(){return hasUpgrade("co",31)},
+			},
+			84: {
+				description(){return "新能源<br>用金钱去研究新的电能"},
+				cost:function(){return new Decimal("1e2000")},
+				unlocked(){return hasUpgrade("co",31)},
+			},
+			85: {
+				description(){return "阴谋<br>去默默残害所有人"},
+				cost:function(){return new Decimal("1e20000")},
+				unlocked(){return hasUpgrade("co",31)},
 			},
 		},
 	tabFormat: [
